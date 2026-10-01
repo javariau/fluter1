@@ -15,6 +15,6 @@ flutter pub get
 flutter run
 ```
 
-Pastikan emulator aktif atau HP Android tersambung melalui USB debugging sebelum menjalankan `flutter run`.
+Sambungkan HP Android melalui USB, aktifkan **Opsi Pengembang** dan **USB debugging**, lalu izinkan komputer pada prompt di HP. Pastikan HP muncul saat menjalankan `adb devices -l`, kemudian jalankan `flutter run`.
 
 Proyek ini menggunakan Flutter dan Material 3 tanpa package tambahan.
