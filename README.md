@@ -1,17 +1,28 @@
-# mapsos
+# Tugas Sesi 5 - NusaEvent Hub
 
-A new Flutter project.
+Aplikasi Flutter Material 3 untuk menemukan seminar dan workshop, melihat galeri serta denah venue, mendaftar tiket, dan membatalkan pendaftaran.
 
-## Getting Started
+## Menjalankan
 
-This project is a starting point for a Flutter application.
+```sh
+flutter pub get
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Pengujian
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```sh
+flutter analyze
+flutter test
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Struktur
+
+- `lib/models/`: model `EventItem` dan `RegistrationTicket`.
+- `lib/data/`: data contoh acara.
+- `lib/widgets/`: kartu acara, filter kategori, dan denah interaktif.
+- `lib/screens/`: daftar acara, galeri, formulir, dan tiket aktif.
+- `screenshots/`: bukti tampilan perangkat dan Flutter DevTools yang tersedia.
+- `Laporan_Praktikum_Tugas05.pdf`: laporan praktikum.
+
+Tiket disimpan di memori selama aplikasi berjalan; penyimpanan backend belum menjadi bagian tugas ini.

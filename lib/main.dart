@@ -1,187 +1,128 @@
 import 'package:flutter/material.dart';
 
-// Fungsi utama yang dijalankan pertama kali saat aplikasi dibuka.
-void main() {
-  runApp(const MyApp());
+import 'data/sample_events.dart';
+import 'models/event_item.dart';
+import 'models/registration_ticket.dart';
+import 'screens/event_registration_screen.dart';
+import 'screens/gallery_venue_screen.dart';
+import 'screens/home_events_screen.dart';
+import 'screens/registered_tickets_screen.dart';
+
+void main() => runApp(const NusaEventApp());
+
+class NusaEventApp extends StatefulWidget {
+  const NusaEventApp({super.key});
+
+  @override
+  State<NusaEventApp> createState() => _NusaEventAppState();
 }
 
-// Widget utama yang menjadi akar aplikasi.
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _NusaEventAppState extends State<NusaEventApp> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  final _messengerKey = GlobalKey<ScaffoldMessengerState>();
+  final List<RegistrationTicket> _tickets = [];
+  int _selectedTab = 0;
 
-  // Fungsi untuk menyusun tampilan aplikasi.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Judul aplikasi.
-      title: 'Flutter Demo',
-
-      // Mengatur tema atau tampilan umum aplikasi.
-      theme: ThemeData(
-        // Coba jalankan aplikasi menggunakan perintah "flutter run".
-        // Kamu akan melihat bilah aplikasi dengan warna ungu.
-        //
-        // Tanpa menghentikan aplikasi, coba ganti seedColor di bawah
-        // menjadi Colors.green, lalu lakukan Hot Reload.
-        // Kamu bisa menyimpan kode atau menekan tombol Hot Reload
-        // di editor yang mendukung Flutter.
-        // Jika menjalankan melalui terminal, tekan tombol "r".
-        //
-        // Perhatikan bahwa angka penghitung tidak kembali ke nol
-        // setelah Hot Reload karena keadaan aplikasi tetap tersimpan.
-        // Untuk memulai ulang keadaan aplikasi dari awal, gunakan
-        // Hot Restart.
-        //
-        // Perubahan kode juga umumnya bisa langsung diuji dengan
-        // Hot Reload tanpa perlu menghentikan aplikasi.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+  void _openRegistration(EventItem event) {
+    _navigatorKey.currentState?.push(
+      MaterialPageRoute<void>(
+        builder: (context) => EventRegistrationScreen(
+          event: event,
+          onRegistered: (ticket) {
+            setState(() => _tickets.insert(0, ticket));
+            _messengerKey.currentState?.hideCurrentSnackBar();
+            _messengerKey.currentState?.showSnackBar(
+              const SnackBar(content: Text('Pendaftaran berhasil. Tiket aktif sudah tersimpan.')),
+            );
+          },
+        ),
       ),
-
-      // Menentukan halaman pertama yang ditampilkan.
-      home: const MyHomePage(
-        title: 'javariaubintang muharram 20240040219',
-      ), //////////////////////////
     );
   }
-}
-
-// Widget halaman utama aplikasi.
-// StatefulWidget digunakan ketika data pada halaman dapat berubah.
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // Kelas ini menyimpan pengaturan atau informasi halaman.
-  // Nilai yang diberikan dari widget induk akan digunakan
-  // oleh fungsi build untuk menampilkan halaman.
-  //
-  // Properti pada kelas turunan Widget biasanya dibuat final
-  // agar nilainya tidak dapat diubah setelah ditentukan.
-
-  // Variabel untuk menyimpan judul halaman.
-  final String title;
-
-  @override
-  // Membuat objek State untuk mengelola perubahan halaman.
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-// Kelas yang menyimpan data dan mengatur perubahan tampilan.
-class _MyHomePageState extends State<MyHomePage> {
-  // Menyimpan angka penghitung dengan nilai awal 0.
-  int _counter = 0;
-
-  // Fungsi untuk menambah angka penghitung.
-  void _incrementCounter() {
-    setState(() {
-      // setState memberi tahu Flutter bahwa ada data yang berubah.
-      // Flutter kemudian menjalankan kembali fungsi build
-      // agar tampilan menampilkan nilai terbaru.
-      //
-      // Jika nilai _counter diubah tanpa setState,
-      // perubahan tersebut tidak langsung ditampilkan di layar.
-      _counter++;
-    });
-  }
-
-  // Fungsi untuk mengurangi angka
-  void _decrementCounter() {
-      if (_counter > 0) {
-        setState(() {
-          _counter--;
-        });
-      }
-  }
-
-  void _reset() {
-    setState(() {
-      _counter = 0;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    // Fungsi build dijalankan kembali setiap kali setState dipanggil,
-    // misalnya setelah tombol tambah ditekan.
-    //
-    // Flutter dirancang agar proses menyusun ulang tampilan
-    // berlangsung cepat. Karena itu, kita tidak perlu mengubah
-    // setiap bagian tampilan secara manual satu per satu.
-    return Scaffold(
-      // Bilah bagian atas aplikasi.
-      appBar: AppBar(
-        // Mengatur warna bilah aplikasi menggunakan warna dari tema.
-        // Coba ganti warna ini menjadi Colors.amber, lalu simpan kode.
-        // Warna bilah aplikasi akan berubah, sedangkan warna lainnya
-        // tetap mengikuti pengaturan tema.
-        backgroundColor: Theme.of(context)
-            .colorScheme
-            .inversePrimary, //////////////
-        // Menampilkan judul yang diberikan oleh MyHomePage
-        // melalui properti title.
-        title: Text(widget.title),
+    const ink = Color(0xFF172321);
+    const paper = Color(0xFFF7F7F1);
+    return MaterialApp(
+      title: 'NusaEvent Hub',
+      debugShowCheckedModeBanner: false,
+      navigatorKey: _navigatorKey,
+      scaffoldMessengerKey: _messengerKey,
+      theme: ThemeData(
+        useMaterial3: true,
+        scaffoldBackgroundColor: paper,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFCAEF63),
+          surface: paper,
+          primary: ink,
+          secondary: const Color(0xFFE56B4B),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: paper,
+          foregroundColor: ink,
+          surfaceTintColor: Colors.transparent,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Color(0xFFE2E5DC)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: ink, width: 1.5),
+          ),
+        ),
       ),
-
-      // Bagian utama halaman aplikasi.
-      body: Center(
-        // Center adalah widget tata letak yang menempatkan
-        // satu widget anak di bagian tengah.
-        child: Column(
-          // Column menyusun beberapa widget secara vertikal.
-          // Secara bawaan, lebarnya mengikuti kebutuhan isi,
-          // sedangkan tingginya mengikuti ruang yang tersedia.
-          //
-          // mainAxisAlignment mengatur posisi widget pada
-          // arah utama Column, yaitu arah vertikal.
-          // Nilai center membuat semua isi berada di tengah.
-          //
-          // Untuk melihat batas setiap widget, kamu bisa mencoba
-          // fitur Debug Paint di editor atau menekan tombol "p"
-          // pada terminal saat aplikasi sedang berjalan.
-          mainAxisAlignment: .center,
-
-          // Daftar widget yang ditampilkan di dalam Column.
-          children: [
-            // Menampilkan teks petunjuk penghitung.
-            const Text('You have pushed the button this many times:'),
-
-            // Menampilkan angka penghitung yang tersimpan.
-            Text(
-              '$_counter',
-
-              // Menggunakan ukuran dan gaya teks dari tema aplikasi.
-              style: Theme.of(context).textTheme.headlineMedium,
+      home: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 20,
+          title: LayoutBuilder(
+            builder: (context, constraints) => constraints.maxWidth < 220
+                ? const Text('NusaEvent', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, letterSpacing: 0))
+                : const Row(
+                    children: [
+                      Icon(Icons.bubble_chart_rounded, size: 25),
+                      SizedBox(width: 8),
+                      Text('NusaEvent', style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 0)),
+                      Text(' Hub', style: TextStyle(fontWeight: FontWeight.w400, letterSpacing: 0)),
+                    ],
+                  ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: CircleAvatar(
+                radius: 17,
+                backgroundColor: const Color(0xFFCAEF63),
+                child: Icon(Icons.person_outline_rounded, size: 19, color: ink),
+              ),
             ),
           ],
         ),
-      ),
-
-      // Tombol melayang yang berada di bagian bawah halaman.
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Tombol kurang
-          FloatingActionButton(
-            onPressed: _decrementCounter,
-            tooltip: 'Kurang',
-            child: const Icon(Icons.remove),
-          ),
-
-          const SizedBox(width: 10),
-
-          // Tombol tambah
-          FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Tambah',
-            child: const Icon(Icons.add),
-          ),
-
-          const SizedBox(width: 10),
-          FloatingActionButton(
-            onPressed: _reset,
-            tooltip: 'ulang',
-            child: const Icon(Icons.refresh),
-          ),
-        ],
+        body: IndexedStack(
+          index: _selectedTab,
+          children: [
+            HomeEventsScreen(events: sampleEvents, onSelectEvent: _openRegistration),
+            GalleryVenueScreen(events: sampleEvents),
+            RegisteredTicketsScreen(
+              tickets: _tickets,
+              onCancel: (ticket) => setState(() => _tickets.remove(ticket)),
+            ),
+          ],
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _selectedTab,
+          onDestinationSelected: (index) => setState(() => _selectedTab = index),
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.event_note_outlined), selectedIcon: Icon(Icons.event_note), label: 'Seminar'),
+            NavigationDestination(icon: Icon(Icons.grid_view_outlined), selectedIcon: Icon(Icons.grid_view), label: 'Galeri & peta'),
+            NavigationDestination(icon: Icon(Icons.confirmation_number_outlined), selectedIcon: Icon(Icons.confirmation_number), label: 'Tiket'),
+          ],
+        ),
       ),
     );
   }

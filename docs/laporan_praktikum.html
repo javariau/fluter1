@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Laporan Praktikum Tugas Sesi 5 - NusaEvent Hub</title>
+  <style>
+    @page { size: A4; margin: 18mm 17mm; }
+    body { font-family: "Liberation Sans", sans-serif; color: #172321; font-size: 10.5pt; line-height: 1.5; }
+    h1 { font-size: 28pt; line-height: 1.12; margin: 0 0 10mm; }
+    h2 { font-size: 17pt; margin: 0 0 5mm; color: #172321; }
+    h3 { font-size: 12pt; margin: 5mm 0 2mm; }
+    p { margin: 0 0 3mm; }
+    .cover { min-height: 245mm; display: flex; flex-direction: column; justify-content: center; }
+    .eyebrow { color: #597c78; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+    .accent { width: 35mm; height: 3mm; background: #caef63; margin: 8mm 0; }
+    .identity { border-collapse: collapse; width: 100%; margin-top: 12mm; }
+    .identity td { border-bottom: 1px solid #dfe4dc; padding: 3mm 1mm; }
+    .identity td:first-child { width: 33%; color: #68736f; }
+    .page { page-break-before: always; }
+    ul { margin-top: 1mm; padding-left: 7mm; }
+    li { margin-bottom: 1.5mm; }
+    code { font-family: "Liberation Mono", monospace; font-size: 9pt; background: #eef0e9; padding: 0.5mm 1mm; }
+    .callout { background: #f0f3e8; border-left: 3px solid #caef63; padding: 4mm; margin: 4mm 0; }
+    figure { margin: 5mm 0 8mm; page-break-inside: avoid; }
+    figure img { display: block; max-width: 100%; max-height: 145mm; object-fit: contain; border: 1px solid #dfe4dc; }
+    figcaption { color: #59645e; font-size: 9pt; margin-top: 2mm; }
+    .inspector img { max-height: 105mm; }
+    .small { color: #68736f; font-size: 9pt; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="eyebrow">Laporan Praktikum • IF31033</div>
+    <div class="accent"></div>
+    <h1>Perancangan Aplikasi<br>NusaEvent Hub</h1>
+    <p>Aplikasi Flutter untuk informasi seminar, galeri venue, dan pendaftaran tiket.</p>
+    <table class="identity">
+      <tr><td>Nama mahasiswa</td><td>Javariaubintang Muharram</td></tr>
+      <tr><td>NIM</td><td>20240040219</td></tr>
+      <tr><td>Mata kuliah</td><td>IF31033 • Tugas Sesi 5</td></tr>
+      <tr><td>Platform pengujian</td><td>Flutter 3.47.7 • Android 16 / Linux desktop</td></tr>
+      <tr><td>Tanggal laporan</td><td>6 November 2026</td></tr>
+    </table>
+  </section>
+
+  <section class="page">
+    <h2>1. Tujuan dan Ruang Lingkup</h2>
+    <p>NusaEvent Hub menyajikan rangkaian seminar dan workshop bertema AI, Mobile, IoT, dan Cybersecurity. Pengguna dapat memfilter acara, membaca informasi, melihat poster dan denah venue, mengisi formulir pendaftaran, lalu mengelola tiket aktif.</p>
+    <p>Aplikasi dibangun dengan Flutter dan Material 3. Data acara berupa data contoh lokal; tiket tersimpan di memori selama aplikasi berjalan dan belum menggunakan backend.</p>
+    <h2>2. Penjelasan Kode</h2>
+    <h3>Model dan data</h3>
+    <p><code>EventItem</code> menyimpan identitas acara, kategori, waktu, lokasi, harga, kapasitas, dan deskripsi. <code>RegistrationTicket</code> menyimpan data peserta serta preferensi pendaftaran dan mengacu ke acara yang dipilih. Daftar awal didefinisikan di <code>lib/data/sample_events.dart</code>.</p>
+    <h3>Daftar acara dan filter</h3>
+    <p><code>HomeEventsScreen</code> membangun daftar dengan builder sliver dan <code>EventCard</code> memakai <code>InkWell</code> untuk membuka formulir. Filter kategori dibuka sebagai bottom sheet dan mengubah daftar yang tampil tanpa mengubah data sumber.</p>
+    <h3>Formulir pendaftaran</h3>
+    <p><code>EventRegistrationScreen</code> mengelola form dengan <code>GlobalKey&lt;FormState&gt;</code>. Validator memeriksa nama, NIM numerik, format email, dan nomor WhatsApp. Tanggal dipilih lewat <code>showDatePicker()</code>; opsi tipe peserta, seminar kit, donasi, dan persetujuan tata tertib dikelola sebagai state. Saat submit valid, indikator loading muncul, tiket disimpan, lalu aplikasi menampilkan <code>SnackBar</code>.</p>
+    <h3>Tiket dan denah</h3>
+    <p>Poster dibuat melalui <code>GridView.builder</code>. Denah berada di dalam <code>InteractiveViewer</code> agar dapat digeser dan diperbesar. Tiket aktif ditampilkan dalam daftar; <code>Dismissible</code> meminta konfirmasi lewat <code>AlertDialog</code> sebelum tiket dihapus.</p>
+    <h2>3. Analisis Layout</h2>
+    <ul>
+      <li>Navigasi tiga tujuan memakai <code>NavigationBar</code> Material 3.</li>
+      <li>Konten diberi batas lebar maksimum pada desktop dan padding adaptif pada layar ponsel.</li>
+      <li>Daftar panjang menggunakan sliver/ListView agar dapat digulir; poster memakai grid dengan batas maksimum lebar tile.</li>
+      <li>Formulir memakai satu kolom untuk menjaga keterbacaan pada layar sempit. Komponen hero dan denah diuji pada viewport ponsel; overflow hero yang ditemukan saat pengujian telah diperbaiki.</li>
+    </ul>
+  </section>
+
+  <section class="page">
+    <h2>4. Hasil dan Bukti Tampilan</h2>
+    <figure>
+      <img src="../screenshots/galeri_denah.png" alt="Galeri poster dan denah venue NusaEvent Hub">
+      <figcaption>Gambar 1. Tampilan galeri poster dan denah venue interaktif pada perangkat Android.</figcaption>
+    </figure>
+    <figure>
+      <img src="../screenshots/formulir.png" alt="Formulir pendaftaran NusaEvent Hub">
+      <figcaption>Gambar 2. Formulir pendaftaran dengan validasi dan pilihan kehadiran.</figcaption>
+    </figure>
+  </section>
+
+  <section class="page">
+    <h2>5. Flutter Inspector dan Pengujian</h2>
+    <figure class="inspector">
+      <img src="../screenshots/flutter_inspector.png" alt="Flutter DevTools dengan tab Flutter Inspector dan app debug terhubung">
+      <figcaption>Gambar 3. Flutter DevTools menampilkan Flutter Inspector dan koneksi ke aplikasi debug.</figcaption>
+    </figure>
+    <h3>Hasil validasi</h3>
+    <ul>
+      <li><code>flutter analyze</code>: tidak ditemukan masalah.</li>
+      <li>Widget test: memverifikasi filter kategori, tampilan galeri/denah, validasi form, pendaftaran, tampilan tiket, dan konfirmasi pembatalan.</li>
+      <li>Build Android debug berhasil dipasang pada perangkat TECNO LJ6 (Android 16). Build Linux desktop juga berhasil.</li>
+    </ul>
+    <div class="callout">
+      <strong>Catatan bukti:</strong> sesi ADB nirkabel terputus dan perangkat beralih ke aplikasi lain ketika tangkapan layar untuk daftar seminar, filter aktif, pesan validasi, dan dialog pembatalan dicoba. Kondisi interaksinya terverifikasi melalui widget test, tetapi screenshot perangkat untuk empat keadaan tersebut belum tersedia pada laporan ini.
+    </div>
+    <p class="small">Sumber kode dan screenshot yang tersedia disertakan dalam ZIP tugas. Jalankan <code>flutter pub get</code>, lalu <code>flutter run</code> untuk mencoba aplikasi.</p>
+  </section>
+</body>
+</html>
