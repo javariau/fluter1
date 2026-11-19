@@ -1,6 +1,13 @@
-# Tugas Sesi 5 - NusaEvent Hub
+# NusaKas
 
-Aplikasi Flutter Material 3 untuk menemukan seminar dan workshop, melihat galeri serta denah venue, mendaftar tiket, dan membatalkan pendaftaran.
+Aplikasi Flutter sederhana untuk mencatat pemasukan dan pengeluaran kas himpunan.
+
+## Fitur
+
+- Melihat saldo, total pemasukan, dan total pengeluaran.
+- Menambah pemasukan atau pengeluaran dengan validasi.
+- Menghapus transaksi menggunakan `Dismissible`.
+- Menolak nominal nol/negatif dan pengeluaran melebihi saldo.
 
 ## Menjalankan
 
@@ -12,17 +19,33 @@ flutter run
 ## Pengujian
 
 ```sh
-flutter analyze
 flutter test
+flutter test integration_test
 ```
 
 ## Struktur
 
-- `lib/models/`: model `EventItem` dan `RegistrationTicket`.
-- `lib/data/`: data contoh acara.
-- `lib/widgets/`: kartu acara, filter kategori, dan denah interaktif.
-- `lib/screens/`: daftar acara, galeri, formulir, dan tiket aktif.
-- `screenshots/`: bukti tampilan perangkat dan Flutter DevTools yang tersedia.
-- `Laporan_Praktikum_Tugas05.pdf`: laporan praktikum.
+- `lib/domain/`: model dan kalkulator kas.
+- `lib/data/repositories/`: penyimpanan transaksi dalam memori.
+- `lib/ui/kas/`: view model dan halaman UI.
+- `test/unit/`: unit test.
+- `test/widget/`: widget test.
+- `integration_test/`: integration test.
 
-Tiket disimpan di memori selama aplikasi berjalan; penyimpanan backend belum menjadi bagian tugas ini.
+## Screenshot
+
+### Halaman Home
+
+![Halaman Home](screenshots/home.png)
+
+### Halaman Tambah Transaksi
+
+![Tambah Transaksi](screenshots/tambah-transaksi.png)
+
+### Hasil `flutter test`
+
+![Hasil Unit dan Widget Test](screenshots/flutter-test.png)
+
+### Hasil integration test
+
+![Hasil Integration Test](screenshots/integration-test.png)
