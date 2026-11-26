@@ -1,4 +1,4 @@
-package id.nusaevent.tugassesi5
+package com.example.landchain
 
 import io.flutter.embedding.android.FlutterActivity
 

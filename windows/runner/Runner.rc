@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "mapsos" "\0"
+            VALUE "FileDescription", "landchain" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mapsos" "\0"
+            VALUE "InternalName", "landchain" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "mapsos.exe" "\0"
-            VALUE "ProductName", "mapsos" "\0"
+            VALUE "OriginalFilename", "landchain.exe" "\0"
+            VALUE "ProductName", "landchain" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
